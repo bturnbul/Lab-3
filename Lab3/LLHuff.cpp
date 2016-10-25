@@ -15,16 +15,16 @@ LLHuff::LLHuff(string f) {
 	size = 0;
 }//LLHuff
 
- LLHuff::~LLHuff() {
-	    remove(root);
- }//destructor
-
-void LLHuff::remove(LLNode* root){
-     if (root == NULL) return;
-     remove(root->left);
-     remove(root->right);
-     delete root;
- }//remove
+// LLHuff::~LLHuff() {
+//	    remove(root);
+// }//destructor
+//
+//void LLHuff::remove(LLNode* root){
+//     if (root == NULL) return;
+//     remove(root->left);
+//     remove(root->right);
+//     delete root;
+// }//remove
 
 
 void LLHuff::makeHuff(LLPQ *pq) {

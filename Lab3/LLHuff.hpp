@@ -20,7 +20,7 @@ class LLHuff {
 public:
 	LLPQ *pq;
 	LLHuff(string f);
-	~LLHuff();
+//	~LLHuff();
 	void storeCode(LLNode *root, string path);
 	void makeHuff(LLPQ *pq);
 	void testHuff();
