@@ -1,27 +1,35 @@
+
 // LLHuff.hpp
-#include <string>
-#include "LLNode.hpp"
-#include "LLPQ.hpp"
+
 #ifndef LLHuff_HPP
 #define LLHuff_HPP
+#include "LLNode.hpp"
+#include "LLPQ.hpp"
+#include <string>
+#include <iostream>
+
 using namespace std;
 
 class LLHuff {
-	friend class LLPQ;
 	friend class LLNode;
+	friend class LLPQ;
 	string file;
 	LLNode *root;
 	int size;
+	LLPQ *ascii;
 public:
 	LLPQ *pq;
-	LLPQ *ascii;
 	LLHuff(string f);
 	~LLHuff();
+	void storeCode(LLNode *root, string path);
 	void makeHuff(LLPQ *pq);
-	void findCode(LLNode *root, int path);
+	void testHuff();
+	LLNode * getRoot();
+	void findCode(LLNode *root, string path);
 	void readFile();
 	void compressFile();
-	void ReadAscii();
+	void readAscii();
+	void remove(LLNode* root);
 };
 
-#endif //LLHuff_HPP
+#endif /* LLHuff_HPP */

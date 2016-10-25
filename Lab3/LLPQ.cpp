@@ -93,9 +93,15 @@ void LLPQ::sortLL() {
 		LLNode *tmp = first;
 		for (int j = 0; j < (size - 1) - i; j++) {
 			if (tmp->count > tmp->next->count) {
+				char tmpData = tmp->data;
 				string tmpCode = tmp->code;
+				int tmpCount = tmp->count;
+				tmp->data = tmp->next->data;
 				tmp->code = tmp->next->code;
+				tmp->count = tmp->next->count;
+				tmp->next->data = tmpData;
 				tmp->next->code = tmpCode;
+				tmp->next->count = tmpCount;
 			} // if
 			tmp = tmp->next;
 		} // for j
@@ -106,7 +112,15 @@ void LLPQ::insertUnique(char c) {
 	// Inserts only unique characters into the linked list. If the
 	// character is already in the list, it increases the count
 	// of that character.
-	if (findCode(c) == "") {
+	int x = 0;
+	LLNode * tmp = first;
+	while (tmp != NULL) {
+		if (tmp->data == c) {
+			x += 1;
+		}//if
+			tmp = tmp->next;
+	}//while
+	if (x == 0) {
 		if (first == NULL) {
 			LLNode *n = new LLNode(c);
 			n->data = c;
@@ -122,39 +136,75 @@ void LLPQ::insertUnique(char c) {
 			first = tmp;
 			tmp->prev = NULL;
 			size++;
-		}
-	}
+		}//else
+	}//if
 	else {
 		LLNode *tmp = first;
 		for (int i = 0; i < size; i++) {
 			if (tmp->data == c) {
 				tmp->count += 1;
 				tmp = tmp->next;
-			}
+			}//if
 			else {
 				tmp = tmp->next;
-			}
-		}
-	}
-}
+			}//else
+		}//for
+	}//else
+}//insertUnique
 
 void LLPQ::insertInOrder(LLNode *n) {
-	// Inserts the node n into the linked list in order of its
-	// count value - this will be used in the creation of the
-	// Huffman code.
-	LLNode *tmp = first;
-	int marker = n->count;
-	while (tmp->count < marker) {
-		tmp = tmp->next;
-	}
-	n->next = tmp;
-	if (tmp->prev == NULL) {
-		tmp->prev->next = n;
-	}
-	tmp->prev = n;
-	size += 1;
-}
+	if (first == NULL) {
+		first = n;
+	}//if
+	else {
+		LLNode * mark = first;
+		while (mark->next != NULL && mark->count < n->count) {
+			mark = mark->next;
+		}//while
+		n->next = mark->next;
+		n->prev = mark;
+		mark->next = n;
+		if (n->next != NULL) {
+			n->next->prev = n;
+		}//if
+	}//else
+}//insertInOrder
 
+LLPQ * LLPQ::test() {
+	LLPQ * pq = new LLPQ;
+
+	LLNode * d = new LLNode('d');
+	LLNode * g = new LLNode('g');
+	LLNode * f = new LLNode('f');
+	LLNode * e = new LLNode('e');
+	d->next = e;
+	d->prev = NULL;
+	d->count = 3;
+
+	e->next = f;
+	e->prev = d;
+	e->count = 1;
+
+	f->next = g;
+	f->prev = e;
+	f->count = 2;
+
+	g->next = NULL;
+	g->prev = f;
+	g->count = 4;
+	g->code = "101";
+
+	pq->first = d;
+	pq->size = 4;
+	return pq;
+}//test
+
+LLNode * LLPQ::testNode() {
+	LLNode * a = new LLNode('a');
+	a->count = 5;
+	a->code = "";
+	return a;
+}//testNode
 
 
 
